@@ -121,30 +121,29 @@ const Start = ({ navigation }) => {
 
 const styles = StyleSheet.create({
 	body: {
-		flex: 1,
+		flex: 2,
 		justifyContent: "center",
 		padding: 50,
-		position: "absolute",
 	},
 	titleSection: {
-		flex: 6,
+		flex: 1,
 	},
 	title: {
 		color: "white",
 		fontWeight: "bold",
 		fontSize: 70,
 		paddingTop: 70,
-		paddingBottom: 100,
 	},
 	loginBox: {
-		flex: 5,
+		flex: 1,
 		backgroundColor: "white",
 		width: "100%",
 		justifyContent: "center",
+		position: "absolute",
 		padding: 20,
 		paddingLeft: 20,
 		paddingRight: 20,
-		marginBottom: 100,
+		marginLeft: 50,
 	},
 	humanIcon: { position: "relative", top: 40, left: 12 },
 	textInput: {

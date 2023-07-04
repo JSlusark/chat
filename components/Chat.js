@@ -4,8 +4,8 @@ import {
 	StyleSheet,
 	View,
 	Text,
-	Platform,
 	KeyboardAvoidingView,
+	Platform,
 } from "react-native";
 import { Bubble, GiftedChat } from "react-native-gifted-chat";
 
@@ -75,6 +75,7 @@ const Chat = ({ route, navigation }) => {
 					_id: 1,
 				}}
 			/>
+
 			{Platform.OS === "android" ? (
 				<KeyboardAvoidingView behavior="height" />
 			) : null}
