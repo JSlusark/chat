@@ -1,4 +1,5 @@
 // startpage
+
 import { useState } from "react";
 import {
 	StyleSheet,
@@ -9,8 +10,10 @@ import {
 	TouchableOpacity,
 	ImageBackground,
 	Image,
+	Alert,
 } from "react-native";
 import { SvgXml } from "react-native-svg";
+import { getAuth, signInAnonymously } from "firebase/auth";
 
 const Start = ({ navigation }) => {
 	const svgMarkup = `
@@ -39,7 +42,7 @@ const Start = ({ navigation }) => {
 	</svg>
 	    </svg>
 	  `;
-
+	const auth = getAuth();
 	const [name, setName] = useState("");
 	const [selectedColor, setSelectedColor] = useState("");
 
@@ -51,6 +54,24 @@ const Start = ({ navigation }) => {
 		return selectedColor
 			? { backgroundColor: selectedColor.backgroundColor }
 			: null;
+	};
+
+	const signInUser = () => {
+		signInAnonymously(auth)
+			.then((userCredential) => {
+				const { user } = userCredential;
+				// Navigate to the Chat screen with user ID, name, and color
+				navigation.navigate("Chat", {
+					userID: user.uid,
+					name: name,
+					selectedColor: selectedColor,
+				});
+				Alert.alert("Signed in successfully!");
+			})
+			.catch((error) => {
+				console.log(error);
+				Alert.alert("Unable to sign in, try again later.");
+			});
 	};
 
 	return (
@@ -110,7 +131,7 @@ const Start = ({ navigation }) => {
 				</View>
 				<TouchableOpacity
 					style={styles.button}
-					onPress={() => navigation.navigate("Chat", { name, selectedColor })}
+					onPress={signInUser}
 				>
 					<Text style={styles.buttonText}>Start Chatting</Text>
 				</TouchableOpacity>
