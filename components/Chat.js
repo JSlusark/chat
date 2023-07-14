@@ -1,5 +1,4 @@
 // chat page
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState, useEffect, useCallback } from "react";
 import {
 	StyleSheet,
@@ -16,6 +15,7 @@ import {
 	orderBy,
 	query,
 } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Chat = ({ isConnected, db, route, navigation }) => {
 	console.log("Collection " + collection);
@@ -67,7 +67,7 @@ const Chat = ({ isConnected, db, route, navigation }) => {
 	  */
 	const cacheMessages = async (messagesToCache) => {
 		try {
-			await AsyncStorage.setItem("chat", JSON.stringify(messagesToCache));
+			await AsyncStorage.setItem("messages", JSON.stringify(messagesToCache));
 		} catch (error) {
 			console.log(error.message);
 		}
@@ -76,7 +76,7 @@ const Chat = ({ isConnected, db, route, navigation }) => {
 	// Load messages from AsyncStorage cache
 	const loadCachedMessages = async () => {
 		try {
-			const cachedChat = await AsyncStorage.getItem("chat");
+			const cachedChat = await AsyncStorage.getItem("messages");
 			cachedChat ? setMessages(JSON.parse(cachedChat)) : setMessages([]);
 		} catch (error) {
 			console.log(error.message);

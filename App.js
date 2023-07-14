@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, LogBox, Alert } from "react-native";
 // import the screens
 import Start from "./components/Start";
 import Chat from "./components/Chat";
@@ -9,7 +9,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 //Setting up Firebase connection
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import {
+	getFirestore,
+	disableNetwork,
+	enableNetwork,
+} from "firebase/firestore";
+//connectivity state
+import { useNetInfo } from "@react-native-community/netinfo";
+import { useEffect } from "react";
 
 // Create the navigator
 const Stack = createNativeStackNavigator();
@@ -30,6 +37,18 @@ const App = () => {
 	// Initialize Cloud Firestore and get a reference to the service
 	const db = getFirestore(app);
 
+	//network connectivity status
+	const connectionStatus = useNetInfo();
+
+	useEffect(() => {
+		if (connectionStatus.isConnected === false) {
+			Alert.alert("Connection Lost!");
+			disableNetwork(db);
+		} else if (connectionStatus.isConnected === true) {
+			enableNetwork(db);
+		}
+	}, [connectionStatus.isConnected]);
+
 	return (
 		<NavigationContainer>
 			<Stack.Navigator initialRouteName="Start">
@@ -44,8 +63,8 @@ const App = () => {
 				<Stack.Screen name="Chat">
 					{(props) => (
 						<Chat
+							isConnected={connectionStatus.isConnected}
 							db={db}
-							isConnected={true}
 							{...props}
 						/>
 					)}
