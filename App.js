@@ -1,4 +1,4 @@
-import { StatusBar } from "expo-status-bar";
+// import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, LogBox, Alert } from "react-native";
 // import the screens
 import Start from "./components/Start";
@@ -18,6 +18,10 @@ import {
 import { useNetInfo } from "@react-native-community/netinfo";
 import { useEffect } from "react";
 
+//expo package for sending photos
+import * as ImagePicker from "expo-image-picker";
+import { getStorage } from "firebase/storage";
+
 // Create the navigator
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +40,7 @@ const App = () => {
 	const app = initializeApp(firebaseConfig);
 	// Initialize Cloud Firestore and get a reference to the service
 	const db = getFirestore(app);
+	const storage = getStorage(app);
 
 	//network connectivity status
 	const connectionStatus = useNetInfo();
@@ -65,6 +70,7 @@ const App = () => {
 						<Chat
 							isConnected={connectionStatus.isConnected}
 							db={db}
+							storage={storage}
 							{...props}
 						/>
 					)}

@@ -5,7 +5,6 @@ import {
 	StyleSheet,
 	View,
 	Text,
-	Button,
 	TextInput,
 	TouchableOpacity,
 	ImageBackground,
@@ -14,6 +13,7 @@ import {
 } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { getAuth, signInAnonymously } from "firebase/auth";
+import CustomActions from "./CustomActions";
 
 const Start = ({ navigation }) => {
 	const svgMarkup = `
